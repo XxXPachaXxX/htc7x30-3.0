@@ -529,9 +529,11 @@ struct platform_device msm_device_hsusb_host = {
 	},
 };
 
+#ifdef CONFIG_USB_EHCI_MSM_72K
 static struct platform_device *msm_host_devices[] = {
 	&msm_device_hsusb_host,
 };
+#endif
 
 int msm_add_host(unsigned int host, struct msm_usb_host_platform_data *plat)
 {
