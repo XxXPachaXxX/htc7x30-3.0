@@ -1723,9 +1723,12 @@ static struct msm_hsusb_gadget_platform_data msm_gadget_pdata = {
 };
 
 static struct msm_otg_platform_data msm_otg_pdata = {
-#ifdef CONFIG_USB_EHCI_MSM_72K
+
+         .phy_init_seq    = spade_phy_init_seq,
+         .mode      = USB_OTG,
+         .otg_control    = OTG_PMIC_CONTROL,
+         .phy_type    = CI_45NM_INTEGRATED_PHY,
 	.vbus_power = msm_hsusb_vbus_power,
-#endif
 	.pemp_level		= PRE_EMPHASIS_WITH_20_PERCENT,
 	.cdr_autoreset		= CDR_AUTO_RESET_DISABLE,
 	.drv_ampl		= HS_DRV_AMPLITUDE_DEFAULT,
@@ -2955,6 +2958,10 @@ void spade_add_usb_devices(void)
 	msm_device_otg.dev.platform_data = &msm_otg_pdata;
 	platform_device_register(&msm_device_otg);
 #endif
+
+&msm_device_otg,
+&msm_device_hsusb_host,
+
 	platform_device_register(&msm_device_gadget_peripheral);
 	platform_device_register(&android_usb_device);
 }
